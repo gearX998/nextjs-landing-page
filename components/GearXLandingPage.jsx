@@ -122,9 +122,9 @@ export default function GearXLandingPage() {
 
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                { id: "name", type: "text", label: "Name", placeholder: "John Mayer" },
-                { id: "email", type: "email", label: "Email", placeholder: "john@gearx.ai" },
-                { id: "phoneNumber", type: "tel", label: "Phone", placeholder: "+1 (512) 123-4567" },
+                { id: "name", type: "text", label: "Name", placeholder: "Enter Your Full Name" },
+                { id: "email", type: "email", label: "Email", placeholder: "Enter Your Email Address" },
+                { id: "phoneNumber", type: "tel", label: "Phone", placeholder: "+91 9876543210" },
               ].map(({ id, type, label, placeholder }) => (
                 <div key={id}>
                   <label htmlFor={id} className="block mb-2 font-medium">
