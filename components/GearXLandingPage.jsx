@@ -49,12 +49,6 @@ export default function GearXLandingPage() {
     }
   };
 
-  const galleryImgs = [
-    "/assets/gallery-01.jpg",
-    "/assets/gallery-02.jpg",
-    "/assets/gallery-03.jpg",
-  ];
-
   return (
     <div className="min-h-screen bg-[#F5F7D8] text-neutral-800 font-sans">
       {/* ─────────────────── TOP BAR ─────────────────── */}
@@ -86,24 +80,6 @@ export default function GearXLandingPage() {
             alt="Guitar and amp on stage"
             className="w-full h-auto object-cover rounded-[3rem] lg:rounded-r-[8rem] lg:rounded-bl-[8rem] shadow-2xl"
           />
-        </div>
-      </section>
-
-      {/* ─────────────────── GALLERY ─────────────────── */}
-      <section className="container mx-auto py-24 px-6">
-        <h2 className="text-center text-4xl md:text-5xl font-semibold leading-tight tracking-tight mb-20 max-w-4xl mx-auto">
-          “Gear up for Greatness! Unleash Your Passion with GearX”
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 place-items-center">
-          {galleryImgs.map((src, idx) => (
-            <img
-              key={idx}
-              src={src}
-              alt={`GearX gallery ${idx + 1}`}
-              className={`rounded-3xl object-cover w-full h-[460px] shadow-lg transition-transform duration-300 ${idx === 1 ? "md:scale-110 md:shadow-2xl md:-mt-6 z-10" : "md:mt-6"
-                }`}
-            />
-          ))}
         </div>
       </section>
 
