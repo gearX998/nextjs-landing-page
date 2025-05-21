@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from 'next/script';
 import "./globals.css";
+import { GoogleAnalyticsEvents } from '@/components/GoogleAnalyticsEvents';
+import ClientOnly from '@/components/ClientOnly';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,11 +25,40 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gaMeasurementId = "G-Y1T2F2713D";
+
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <head>
+        <ClientOnly>
+          {gaMeasurementId && (
+            <>
+              <Script
+                strategy="afterInteractive"
+                src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+              />
+              <Script
+                id="google-analytics"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                  __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${gaMeasurementId}', {
+                      page_path: window.location.pathname,
+                    });
+                  `,
+                }}
+              />
+            </>
+          )}
+        </ClientOnly>
+      </head>
+      <body className="antialiased">
+        <ClientOnly>
+          {gaMeasurementId && <GoogleAnalyticsEvents />}
+        </ClientOnly>
         {children}
       </body>
     </html>

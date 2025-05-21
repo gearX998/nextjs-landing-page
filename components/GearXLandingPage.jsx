@@ -58,20 +58,20 @@ export default function GearXLandingPage() {
 
       {/* Hero Section */}
       <section className="container mx-auto grid lg:grid-cols-2 items-center gap-16 py-24 px-6">
-        <div className="flex flex-col items-center lg:items-start space-y-6">
-          <img src="/assets/gearx-logo.png" alt="GearX" className="h-32 w-auto" />
+        <div className="flex flex-col items-center space-y-6">
+          <img src="/assets/gearx-logo.png" alt="GearX" className="h-48 w-auto" />
           <p className="text-3xl lg:text-4xl font-semibold text-center lg:text-left">
-            GearX – Your Gateway to Premium <span className="italic">Passion Gear</span>
+            GearX – Find Your Sound, Before Anyone Else
           </p>
           <p className="text-base lg:text-lg text-center lg:text-left max-w-lg">
-            Discover high-end musical instruments, photography equipment & cycling gear — all tuned to your style with AI-driven personalization.
+            We’re building India’s smartest destination for musical instruments — powered by AI and tuned to your style.
           </p>
           <button
             type="button"
             onClick={() => document.getElementById("signup")?.scrollIntoView({ behavior: "smooth" })}
             className="text-lg lg:text-xl font-medium px-12 py-6 rounded-3xl bg-[#FF2056] hover:bg-[#e6194c] shadow-lg transition-transform hover:scale-105 w-full sm:w-auto"
           >
-            Sign Up for Early Access Now!
+            Be First in Line!
           </button>
         </div>
         <div className="w-full max-w-xl mx-auto">
@@ -86,7 +86,10 @@ export default function GearXLandingPage() {
       {/* Sign-up (Native Form) */}
       <section id="signup" className="bg-white py-24 border-t border-neutral-200">
         <div className="container mx-auto px-6 max-w-3xl">
-          <h3 className="text-center text-3xl font-semibold mb-12">Sign Up for Early Access Now!</h3>
+          <h3 className="text-center text-3xl font-semibold mb-6">Be First in Line!</h3>
+          <p className="text-center text-lg text-neutral-600 mb-12 max-w-xl mx-auto">
+            Sign up for early access, exclusive perks, and gear drops.
+          </p>
           <form
             onSubmit={handleSubmit}
             className="grid gap-6"
@@ -137,8 +140,7 @@ export default function GearXLandingPage() {
           <div className="max-w-md space-y-6">
             <h4 className="font-semibold text-lg">GearX.ai</h4>
             <p>
-              Buy and sell premium music, sports, and photography gear with ease. Customize your experience, explore
-              top‑quality products, and connect with a community that shares your passion.
+              We're building a new kind of e-commerce experience, powered by AI, for musicians who demand more from their gear hunt. Whether you're jamming in your bedroom or headlining your next gig, GearX helps you find, compare, and choose musical instruments effortlessly.
             </p>
           </div>
 
