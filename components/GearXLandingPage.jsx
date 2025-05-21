@@ -143,24 +143,6 @@ export default function GearXLandingPage() {
               We're building a new kind of e-commerce experience, powered by AI, for musicians who demand more from their gear hunt. Whether you're jamming in your bedroom or headlining your next gig, GearX helps you find, compare, and choose musical instruments effortlessly.
             </p>
           </div>
-
-          <div>
-            <h4 className="font-semibold mb-6 text-lg">Follow Us!</h4>
-            <ul className="space-y-3">
-              <li>
-                Facebook: <a href="https://www.facebook.com/profile.php?id=61571632631636" className="underline">GearX</a>
-              </li>
-              <li>
-                Instagram: <a href="https://www.instagram.com/gearx.ai/" className="underline">gearx.ai</a>
-              </li>
-              <li>
-                Twitter: <a href="https://x.com/GearX_ai" className="underline">GearX</a>
-              </li>
-              <li>
-                LinkedIn: <a href="https://www.linkedin.com/in/gearx-ai-6603b6348/" className="underline">GearX</a>
-              </li>
-            </ul>
-          </div>
         </div>
       </footer>
     </div>
