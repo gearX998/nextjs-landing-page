@@ -29,17 +29,22 @@ export default function GearXLandingPage() {
       if (!email) throw new Error("Missing FormSubmit email. Set NEXT_PUBLIC_FORMSUBMIT_EMAIL in .env.local");
       const endpoint = `https://dev.api.gearx.ai`;
       // Post form data as JSON
+      const phoneNumber = form.phoneNumber.trim().slice(-10)
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           query,
-          variables: form
+          variables: { ...form, phoneNumber }
         }),
       });
       if (!res.ok) throw new Error("Network error");
+      const data = await res.json()
+      if (data.errors) {
+        throw new Error(data.errors[0].message);
+      }
       setIsSubmitted(true);
-      window.alert("thank you for submiting...")
+      alert("thank you for submiting...")
       location.reload()
     } catch (err) {
       console.error(err);
