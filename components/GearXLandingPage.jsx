@@ -9,12 +9,25 @@ import { useState } from "react";
 export default function GearXLandingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [touched, setTouched] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phoneNumber: "" });
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
+  const { phoneNumber } = form
+  const pLen = phoneNumber.length
+  const phoneErr = !pLen ? "mobile number is required" : pLen != 10 && "mobile number must be 10 digits"
+  const errors = {}
+
+  if (phoneErr) {
+    errors.phoneNumber = phoneErr
+  }
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setTouched(true)
+    if (Object.keys(errors).length) return
     setIsSubmitting(true);
 
     const query = `mutation CreateUserInquirie($name: String, $email: String, $phoneNumber: String) {
@@ -59,6 +72,8 @@ export default function GearXLandingPage() {
     "/assets/gallery-02.jpg",
     "/assets/gallery-03.jpg",
   ];
+
+
 
   return (
     <div className="min-h-screen bg-[#F5F7D8] text-neutral-800 font-sans">
@@ -129,7 +144,7 @@ export default function GearXLandingPage() {
               {[
                 { id: "name", type: "text", label: "Name", placeholder: "Enter Your Full Name" },
                 { id: "email", type: "email", label: "Email", placeholder: "Enter Your Email Address" },
-                { id: "phoneNumber", type: "tel", label: "Phone", placeholder: "+91 9876543210" },
+                { id: "phoneNumber", type: "number", label: "Phone", placeholder: "Enter Your Mobile Number" },
               ].map(({ id, type, label, placeholder }) => (
                 <div key={id}>
                   <label htmlFor={id} className="block mb-2 font-medium">
@@ -145,6 +160,7 @@ export default function GearXLandingPage() {
                     placeholder={placeholder}
                     className="w-full rounded-lg border border-neutral-300 p-4 focus:ring-2 focus:ring-[#082660]"
                   />
+                  {touched && <div className="text-red-500">{errors[id]}</div>}
                 </div>
               ))}
             </div>
