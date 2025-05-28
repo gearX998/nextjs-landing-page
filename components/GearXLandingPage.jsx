@@ -1,28 +1,90 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * GearX.ai Landing Page — refined gallery styling to match design mock.
  */
 
+
+function validateName(name) {
+  const trimmed = name.trim();
+  // Regex to allow only letters (a-z, A-Z), no spaces or other chars
+  const lettersOnly = /^[A-Za-z]+$/;
+
+  if (!trimmed.length) return "Name is required"
+
+  if (trimmed.length < 2 || !lettersOnly.test(trimmed)) {
+    return "Enter a valid name";
+  }
+
+  return false; // no error
+}
+
+function Toast({ message, onClose, duration = 3000 }) {
+  useEffect(() => {
+    const timer = setTimeout(onClose, duration);
+    return () => clearTimeout(timer);
+  }, [onClose, duration]);
+
+  return (
+    <div className="fixed top-5 right-5 z-50 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg animate-slide-in">
+      {message}
+    </div>
+  );
+}
+
+const init = { name: "", email: "", phoneNumber: "" }
+
 export default function GearXLandingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [touched, setTouched] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", phoneNumber: "" });
+  const [form, setForm] = useState(init);
+  const [showToast, setShowToast] = useState(false);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const { phoneNumber } = form
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "phoneNumber") {
+      // Remove all non-digit characters
+      const digitsOnly = value.replace(/\D/g, "");
+      setForm({ ...form, [name]: digitsOnly });
+    } else if (name == "name") {
+
+      setForm({ ...form, [name]: value.replace(/[^A-Za-z]/g, "") });
+
+    } else {
+      setForm({ ...form, [name]: value });
+    }
+  };
+
+  const { phoneNumber, email, name } = form
+
+  const isInvalidName = validateName(name)
   const pLen = phoneNumber.length
-  const phoneErr = !pLen ? "mobile number is required" : pLen != 10 && "mobile number must be 10 digits"
+  const phoneErr = !pLen ? "Mobile number is required" : pLen != 10 && "Mobile number must be 10 digits"
   const errors = {}
+
+  if (isInvalidName) {
+    errors.name = isInvalidName
+  }
 
   if (phoneErr) {
     errors.phoneNumber = phoneErr
   }
 
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    return emailRegex.test(email);
+  };
+
+  const validEmail = isValidEmail(email)
+
+  if (!validEmail) {
+    errors.email = "Enter a valid email"
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,13 +104,12 @@ export default function GearXLandingPage() {
       if (!email) throw new Error("Missing FormSubmit email. Set NEXT_PUBLIC_FORMSUBMIT_EMAIL in .env.local");
       const endpoint = `https://dev.api.gearx.ai`;
       // Post form data as JSON
-      const phoneNumber = form.phoneNumber.trim().slice(-10)
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           query,
-          variables: { ...form, phoneNumber }
+          variables: form
         }),
       });
       if (!res.ok) throw new Error("Network error");
@@ -57,8 +118,9 @@ export default function GearXLandingPage() {
         throw new Error(data.errors[0].message);
       }
       setIsSubmitted(true);
-      alert("thank you for submiting...")
-      location.reload()
+      setShowToast(true)
+      setForm(init)
+      setTouched(false)
     } catch (err) {
       console.error(err);
       alert(err.message || "Submission failed");
@@ -81,6 +143,16 @@ export default function GearXLandingPage() {
       <header className="w-full bg-[#082660] py-4 px-6">
         <img src="/assets/gearx-logo.png" alt="GearX" className="h-10 w-auto" />
       </header>
+
+
+      {showToast && (
+        <Toast
+          message="Thank you for submitting!"
+          onClose={() => {
+            setShowToast(false)
+          }}
+        />
+      )}
 
       {/* Hero Section */}
       <section className="container mx-auto grid lg:grid-cols-2 items-center gap-16 py-24 px-6">
@@ -112,7 +184,7 @@ export default function GearXLandingPage() {
       {/* ─────────────────── GALLERY ─────────────────── */}
       <section className="container mx-auto py-24 px-6">
         <h2 className="text-center text-4xl md:text-5xl font-semibold leading-tight tracking-tight mb-20 max-w-4xl mx-auto">
-          “Gear up for Greatness! Unleash Your Passion with GearX”
+          “Gear up for Greatness! Unleash Your Passion with GearX”
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 place-items-center">
           {galleryImgs.map((src, idx) => (
@@ -129,7 +201,7 @@ export default function GearXLandingPage() {
 
       {/* Sign-up (Native Form) */}
       <section id="signup" className="bg-white py-24 border-t border-neutral-200">
-        <div className="container mx-auto px-6 max-w-3xl">
+        <div className="container mx-auto px-6 max-w-4xl">
           <h3 className="text-center text-3xl font-semibold mb-12">Sign Up for Early Access Now!</h3>
           <form
             onSubmit={handleSubmit}
@@ -144,7 +216,7 @@ export default function GearXLandingPage() {
               {[
                 { id: "name", type: "text", label: "Name", placeholder: "Enter Your Full Name" },
                 { id: "email", type: "email", label: "Email", placeholder: "Enter Your Email Address" },
-                { id: "phoneNumber", type: "number", label: "Phone", placeholder: "Enter Your Mobile Number" },
+                { id: "phoneNumber", type: "text", label: "Phone", placeholder: "Enter Your Mobile Number" },
               ].map(({ id, type, label, placeholder }) => (
                 <div key={id}>
                   <label htmlFor={id} className="block mb-2 font-medium">
@@ -158,7 +230,7 @@ export default function GearXLandingPage() {
                     onChange={handleChange}
                     required
                     placeholder={placeholder}
-                    className="w-full rounded-lg border border-neutral-300 p-4 focus:ring-2 focus:ring-[#082660]"
+                    className="w-full rounded-lg border border-neutral-300 p-4 "
                   />
                   {touched && <div className="text-red-500">{errors[id]}</div>}
                 </div>
@@ -166,8 +238,9 @@ export default function GearXLandingPage() {
             </div>
             <div className="text-center">
               <button
+                disabled={isSubmitting}
                 type="submit"
-                className="bg-[#FF2056] hover:bg-[#e6194c] px-12 py-6 rounded-3xl text-lg lg:text-xl font-medium shadow-lg w-full sm:w-auto"
+                className="bg-[#FF2056] hover:bg-[#e6194c] disabled:cursor-not-allowed disabled:bg-gray-400 px-12 py-6 rounded-3xl text-lg lg:text-xl font-medium shadow-lg w-full sm:w-auto"
               >
                 Submit
               </button>
