@@ -1,103 +1,77 @@
 "use client";
-
 import { useEffect, useState } from "react";
-
 /**
  * GearX.ai Landing Page — refined gallery styling to match design mock.
  */
-
-
 function validateName(name) {
   const trimmed = name.trim();
   // Regex to allow only letters (a-z, A-Z), no spaces or other chars
   const lettersOnly = /^[A-Za-z]+$/;
-
   if (!trimmed.length) return "Name is required"
-
   if (trimmed.length < 2 || !lettersOnly.test(trimmed)) {
     return "Enter a valid name";
   }
-
   return false; // no error
 }
-
 function Toast({ message, onClose, duration = 3000 }) {
   useEffect(() => {
     const timer = setTimeout(onClose, duration);
     return () => clearTimeout(timer);
   }, [onClose, duration]);
-
   return (
     <div className="fixed top-5 right-5 z-50 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg animate-slide-in">
       {message}
     </div>
   );
 }
-
 const init = { name: "", email: "", phoneNumber: "" }
-
 export default function GearXLandingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [touched, setTouched] = useState(false);
   const [form, setForm] = useState(init);
   const [showToast, setShowToast] = useState(false);
-
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     if (name === "phoneNumber") {
       // Remove all non-digit characters
       const digitsOnly = value.replace(/\D/g, "");
       setForm({ ...form, [name]: digitsOnly });
     } else if (name == "name") {
-
       setForm({ ...form, [name]: value.replace(/[^A-Za-z]/g, "") });
-
     } else {
       setForm({ ...form, [name]: value });
     }
   };
-
   const { phoneNumber, email, name } = form
-
   const isInvalidName = validateName(name)
   const pLen = phoneNumber.length
   const phoneErr = !pLen ? "Mobile number is required" : pLen != 10 && "Mobile number must be 10 digits"
   const errors = {}
-
   if (isInvalidName) {
     errors.name = isInvalidName
   }
-
   if (phoneErr) {
     errors.phoneNumber = phoneErr
   }
-
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     return emailRegex.test(email);
   };
-
   const validEmail = isValidEmail(email)
-
   if (!validEmail) {
     errors.email = "Enter a valid email"
   }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setTouched(true)
     if (Object.keys(errors).length) return
     setIsSubmitting(true);
-
     const query = `mutation CreateUserInquirie($name: String, $email: String, $phoneNumber: String) {
   createUserInquirie(name: $name, email: $email, phoneNumber: $phoneNumber) {
     message
   }
 }`
-
     try {
       // Using FormSubmit.co endpoint: configure your email in .env.local
       const email = "gear.guru.cw@gmail.com";
@@ -128,23 +102,17 @@ export default function GearXLandingPage() {
       setIsSubmitting(false);
     }
   };
-
   const galleryImgs = [
     "/assets/gallery-01.jpg",
     "/assets/gallery-02.jpg",
     "/assets/gallery-03.jpg",
   ];
-
-
-
   return (
     <div className="min-h-screen bg-[#F5F7D8] text-neutral-800 font-sans">
       {/* ─────────────────── TOP BAR ─────────────────── */}
       <header className="w-full bg-[#082660] py-4 px-6">
         <img src="/assets/gearx-logo.png" alt="GearX" className="h-10 w-auto" />
       </header>
-
-
       {showToast && (
         <Toast
           message="Thank you for submitting!"
@@ -153,7 +121,6 @@ export default function GearXLandingPage() {
           }}
         />
       )}
-
       {/* Hero Section */}
       <section className="container mx-auto grid lg:grid-cols-2 items-center gap-16 py-24 px-6">
         <div className="flex flex-col items-center lg:items-start space-y-6">
@@ -180,7 +147,6 @@ export default function GearXLandingPage() {
           />
         </div>
       </section>
-
       {/* ─────────────────── GALLERY ─────────────────── */}
       <section className="container mx-auto py-24 px-6">
         <h2 className="text-center text-4xl md:text-5xl font-semibold leading-tight tracking-tight mb-20 max-w-4xl mx-auto">
@@ -198,7 +164,6 @@ export default function GearXLandingPage() {
           ))}
         </div>
       </section>
-
       {/* Sign-up (Native Form) */}
       <section id="signup" className="bg-white py-24 border-t border-neutral-200">
         <div className="container mx-auto px-6 max-w-4xl">
@@ -207,11 +172,9 @@ export default function GearXLandingPage() {
             onSubmit={handleSubmit}
             className="grid gap-6"
           >
-
             {/* Honeypot field to deter spam */}
             <input type="text" name="_honey" style={{ display: 'none' }} />
             <input type="hidden" name="_captcha" value="false" />
-
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 { id: "name", type: "text", label: "Name", placeholder: "Enter Your Full Name" },
@@ -248,7 +211,6 @@ export default function GearXLandingPage() {
           </form>
         </div>
       </section>
-
       {/* ─────────────────── FOOTER ─────────────────── */}
       <footer className="bg-[#F5F7D8] py-16 border-t border-neutral-200 text-sm">
         <div className="container mx-auto flex flex-col md:flex-row justify-between gap-10 px-6">
@@ -259,7 +221,6 @@ export default function GearXLandingPage() {
               top‑quality products, and connect with a community that shares your passion.
             </p>
           </div>
-
           <div>
             <h4 className="font-semibold mb-6 text-lg">Follow Us!</h4>
             <ul className="space-y-3">
