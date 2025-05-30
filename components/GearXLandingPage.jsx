@@ -154,13 +154,13 @@ export default function GearXLandingPage() {
 
       {/* Hero Section */}
       <section className="container mx-auto grid lg:grid-cols-2 items-center gap-16 py-24 px-6">
-        <div className="flex flex-col items-center lg:items-start space-y-6">
-          <img src="/assets/gearx-logo.png" alt="GearX" className="h-32 w-auto" />
+        <div className="flex flex-col items-center space-y-6">
+          <img src="/assets/gearx-logo.png" alt="GearX" className="h-48 w-auto" />
           <p className="text-3xl lg:text-4xl font-semibold text-center lg:text-left">
-            GearX – Your Gateway to Premium <span className="italic">Passion Gear</span>
+            GearX – Find Your Sound, Before Anyone Else
           </p>
           <p className="text-base lg:text-lg text-center lg:text-left max-w-lg">
-            Discover high-end musical instruments, photography equipment & cycling gear — all tuned to your style with AI-driven personalization.
+            We’re building India’s smartest destination for musical instruments — powered by AI and tuned to your style.
           </p>
           <button
             type="button"
@@ -179,23 +179,6 @@ export default function GearXLandingPage() {
         </div>
       </section>
 
-      {/* ─────────────────── GALLERY ─────────────────── */}
-      <section className="container mx-auto py-24 px-6">
-        <h2 className="text-center text-4xl md:text-5xl font-semibold leading-tight tracking-tight mb-20 max-w-4xl mx-auto">
-          “Gear up for Greatness! Unleash Your Passion with GearX”
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 place-items-center">
-          {galleryImgs.map((src, idx) => (
-            <img
-              key={idx}
-              src={src}
-              alt={`GearX gallery ${idx + 1}`}
-              className={`rounded-3xl object-cover w-full h-[460px] shadow-lg transition-transform duration-300 ${idx === 1 ? "md:scale-110 md:shadow-2xl md:-mt-6 z-10" : "md:mt-6"
-                }`}
-            />
-          ))}
-        </div>
-      </section>
 
       {/* Sign-up (Native Form) */}
       <section id="signup" className="bg-white py-24 border-t border-neutral-200">
@@ -254,28 +237,10 @@ export default function GearXLandingPage() {
           <div className="max-w-md space-y-6">
             <h4 className="font-semibold text-lg">GearX.ai</h4>
             <p>
-              Buy and sell premium music, sports, and photography gear with ease. Customize your experience, explore
-              top‑quality products, and connect with a community that shares your passion.
+              We're building a new kind of e-commerce experience, powered by AI, for musicians who demand more from their gear hunt. Whether you're jamming in your bedroom or headlining your next gig, GearX helps you find, compare, and choose musical instruments effortlessly.
             </p>
           </div>
 
-          <div>
-            <h4 className="font-semibold mb-6 text-lg">Follow Us!</h4>
-            <ul className="space-y-3">
-              <li>
-                Facebook: <a target="_blank" href="https://www.facebook.com/profile.php?id=61571632631636" className="underline">GearX</a>
-              </li>
-              <li>
-                Instagram: <a target="_blank" href="https://www.instagram.com/gearx.ai/" className="underline">gearx.ai</a>
-              </li>
-              <li>
-                Twitter: <a target="_blank" href="https://x.com/GearX_ai" className="underline">GearX</a>
-              </li>
-              <li>
-                LinkedIn: <a target="_blank" href="https://www.linkedin.com/in/gearx-ai-6603b6348/" className="underline">GearX</a>
-              </li>
-            </ul>
-          </div>
         </div>
       </footer>
     </div>
